@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seninle Gün Batımı 💞</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      overflow-x: hidden;
+      color: white;
+    }
+
+    /* Arka plan videosu */
+    .background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      filter: brightness(60%);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+      z-index: -1;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 3rem;
+      color: #ffd6e0;
+      text-shadow: 0 0 15px #ff99cc;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 900px;
+      margin: 60px auto;
+      justify-items: center;
+    }
+
+    .frame {
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 1/1;
+      border: 6px solid #ffb6c1;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(255, 182, 193, 0.6);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .frame:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(255, 105, 180, 0.9);
+    }
+
+    .frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Kalp animasyonları */
+    .heart {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      transform: rotate(45deg);
+      animation: float 6s linear infinite;
+      opacity: 0.7;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { top: 0; left: -10px; }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(45deg); opacity: 0.8; }
+      100% { transform: translateY(-800px) rotate(45deg); opacity: 0; }
+    }
+
+    /* Mektup bölümü */
+    .letter {
+      text-align: center;
+      margin: 80px 0 40px 0;
+    }
+
+    .letter img {
+      max-width: 600px;
+      width: 90%;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(255, 192, 203, 0.7);
+    }
+
+    /* Konfeti butonu */
+    .confetti-btn {
+      display: block;
+      margin: 40px auto;
+      padding: 15px 30px;
+      font-size: 1.3rem;
+      color: white;
+      background: linear-gradient(45deg, #ff8fab, #ff5d8f);
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+      transition: transform 0.3s;
+    }
+
+    .confetti-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* Hoş geldin yazısı */
+    .welcome {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      color: #fff0f5;
+      text-shadow: 0 0 20px #ff99cc;
+      opacity: 0;
+      animation: fadeInOut 5s ease forwards;
+      z-index: 10;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+      25% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      75% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    /* Popup mesaj kutusu */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 240, 245, 0.95);
+      color: #ff4d6d;
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
+      text-align: center;
+      display: none;
+      z-index: 20;
+      animation: popIn 0.5s ease forwards;
+    }
+
+    @keyframes popIn {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+
+    .popup button {
+      margin-top: 15px;
+      background: #ff85a2;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+
+    /* Gün sayacı */
+    .counter {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #ffdde5;
+      margin-top: -80px;
+      text-shadow: 0 0 10px #ff8fab;
+    }
+
+    /* "Seni seviyorum" yazısı */
+    .love-text {
+      text-align: center;
+      font-size: 1.6rem;
+      color: #ffe6eb;
+      animation: pulse 1.8s infinite alternate;
+      margin-bottom: 30px;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.6; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1.05); }
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #ffd6e0;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Arka plan videosu -->
+  <video autoplay muted loop class="background-video">
+    <source src="sunset.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+
+  <!-- Müzik -->
+  <audio autoplay loop>
+    <source src="sarki.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Hoş geldin yazısı -->
+  <div class="welcome">🎂 İyi ki doğdun aşkım 💖</div>
+
+  <h1>💖 İyi Ki Doğdun Sevgilim 💖</h1>
+
+  <!-- Gün sayacı -->
+  <div class="counter" id="counter"></div>
+
+  <!-- Fotoğraf galeri -->
+  <div class="gallery">
+    <div class="frame"><img src="foto1.jpg" alt=""></div>
+    <div class="frame"><img src="foto2.jpg" alt=""></div>
+    <div class="frame"><img src="foto3.jpg" alt=""></div>
+    <div class="frame"><img src="foto4.jpg" alt=""></div>
+  </div>
+
+  <!-- Konfeti butonu -->
+  <button class="confetti-btn" onclick="showSurprise()">🎉 ♥ TIKLA ♥ 🎉</button>
+
+  <!-- Popup kutusu -->
+  <div class="popup" id="popup">
+    <h2>💌 İyi ki doğdun kalbimin en güzel yanı 💌</h2>
+    <p>❤️ Seni her geçen gün daha fazla seviyorum. ❤️</p>
+    <button onclick="closePopup()">Kapat</button>
+  </div>
+
+  <!-- Mektup -->
+  <div class="letter">
+    <img src="mektup.jpg" alt="Aşk Mektubum">
+  </div>
+
+  <!-- “Seni seviyorum” yazısı -->
+  <div class="love-text">Seni çok seviyorum 💞</div>
+
+  <footer>💌 Sonsuza kadar seninle 💌</footer>
+
+  <script>
+    // Kalpler
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+    setInterval(createHeart, 300);
+
+    // Gün sayacı
+    const startDate = new Date("2025-07-31"); // 🔹 Tanışma tarihinizi buraya yaz
+    const today = new Date();
+    const diffTime = Math.abs(today - startDate);
+    const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    document.getElementById("counter").innerText = `💖 ${days} gündür birlikteyizzzz 💖`;
+
+    // Konfeti + Popup
+    function showSurprise() {
+      showConfetti();
+      const popup = document.getElementById("popup");
+      popup.style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    function showConfetti() {
+      const colors = ["#ff4d6d", "#ffb3c1", "#ffe5ec", "#fbb1bd", "#ff8fab"];
+      for (let i = 0; i < 150; i++) {
+        const conf = document.createElement("div");
+        conf.style.position = "fixed";
+        conf.style.top = Math.random() * window.innerHeight + "px";
+        conf.style.left = Math.random() * window.innerWidth + "px";
+        conf.style.width = "10px";
+        conf.style.height = "10px";
+        conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        conf.style.opacity = "0.9";
+        conf.style.transform = "rotate(" + Math.random() * 360 + "deg)";
+        conf.style.borderRadius = Math.random() > 0.5 ? "50%" : "0%";
+        conf.style.zIndex = "9999";
+        document.body.appendChild(conf);
+        const fallTime = 2000 + Math.random() * 2000;
+        conf.animate(
+          [
+            { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+            { transform: `translateY(${window.innerHeight}px) rotate(720deg)`, opacity: 0 }
+          ],
+          { duration: fallTime, easing: "ease-out" }
+        );
+        setTimeout(() => conf.remove(), fallTime);
+      }
+    }
+  </script>
+
+</body>
+</html>
+
