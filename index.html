@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>💞 İyi Ki Doğdun Bitanem 💞</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif; }
+    html,body { height:100%; color:white; background:#111; overflow-x:hidden; }
+
+    .background-video{ position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2; filter:brightness(60%); }
+    .overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:-1; }
+
+    /* Hoş geldin animasyonu */
+    .welcome {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-size: 2.4rem; color: #fff0f5; text-shadow: 0 0 20px #ff99cc;
+      opacity: 0; animation: fadeInOut 5s ease forwards; z-index: 200;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+      25% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      75% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    header{ padding-top:36px; }
+    h1{ text-align:center; font-size:3rem; color:#ffd6e0; text-shadow:0 0 15px #ff99cc; margin-bottom:6px; }
+
+    .gallery{ display:grid; grid-template-columns:repeat(2,1fr); gap:24px; max-width:960px; margin:28px auto; justify-items:center; padding:0 16px; }
+    .frame{ width:100%; max-width:420px; aspect-ratio:1/1; border:6px solid #ffb6c1;
+      border-radius:20px; overflow:hidden; box-shadow:0 0 30px rgba(255,182,193,0.6);
+      transition:transform .28s ease,box-shadow .28s ease; cursor:pointer; position:relative; }
+    .frame:hover{ transform:scale(1.04); box-shadow:0 0 40px rgba(255,105,180,0.95); }
+    .frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .letter{ text-align:center; margin:48px 0 16px; }
+    .letter img{ max-width:600px; width:90%; border-radius:15px; box-shadow:0 0 30px rgba(255,192,203,0.7); }
+
+    .counter{ text-align:center; font-size:1.2rem; color:#ffdde5; text-shadow:0 0 10px #ff8fab; margin-top:-10px; }
+
+    .confetti-btn{ display:block; margin:22px auto; padding:12px 22px; font-size:1.1rem; color:white;
+      background:linear-gradient(45deg,#ff8fab,#ff5d8f); border:none; border-radius:28px; cursor:pointer;
+      box-shadow:0 0 20px rgba(255,182,193,0.5); }
+    .love-text{ text-align:center; font-size:1.3rem; color:#ffe6eb; animation:pulse 1.8s infinite alternate; margin:18px 0 40px; }
+    @keyframes pulse{ from{opacity:0.6; transform:scale(.98)} to{opacity:1; transform:scale(1.02)} }
+
+    footer{ text-align:center; padding:22px; color:#ffd6e0; font-size:1rem; }
+
+    /* Popup doğum günü */
+    .popup{
+      position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+      background:rgba(255,240,245,0.97); color:#ff4d6d; padding:28px 34px; border-radius:18px;
+      box-shadow:0 0 30px rgba(255,182,193,0.8); z-index:60; display:none; text-align:center;
+    }
+    .popup button{ margin-top:14px; padding:10px 16px; border-radius:12px; border:none; background:#ff85a2; color:#fff; cursor:pointer; }
+
+    /* Yan mesaj paneli */
+    .side-message{ position:fixed; right:-100%; top:0; height:100%; width:80%; max-width:420px;
+      background:rgba(255,240,245,0.98); color:#ff3b67; z-index:70; box-shadow:-6px 0 30px rgba(255,182,193,0.6);
+      transition:right .45s ease; border-radius:20px 0 0 20px; display:flex; flex-direction:column; padding:18px; }
+    .side-message.active{ right:0; }
+    .msg-list{ flex:1; overflow:auto; padding:8px; display:flex; flex-direction:column; gap:10px; margin-top:8px; }
+    .msg-item{ background:rgba(255,220,230,0.7); padding:8px 10px; border-radius:12px; }
+    .msg-item .who{ font-weight:700; color:#c40055; margin-bottom:4px; }
+    .msg-item .when{ font-size:0.75rem; color:#9a2d4a; opacity:0.8; margin-top:6px; text-align:right; }
+    .side-form{ margin-top:12px; display:flex; flex-direction:column; gap:8px; }
+    .side-form input, .side-form textarea{ width:100%; padding:10px; border-radius:10px; border:1px solid #ff99bb; background:#fff; color:#6b122b; }
+    .side-form button{ padding:10px 14px; border-radius:12px; border:none; background:#ff5d8f; color:white; cursor:pointer; }
+
+    /* Genel sohbet */
+    .bottom-chat{ background:rgba(255,240,245,0.95); color:#c42558; padding:20px; border-radius:20px 20px 0 0;
+      box-shadow:0 -4px 20px rgba(255,182,193,0.6); max-width:600px; margin:0 auto 20px; }
+    .bottom-chat h3{ text-align:center; margin-bottom:10px; }
+    .chat-list{ max-height:200px; overflow-y:auto; padding:8px; display:flex; flex-direction:column; gap:6px; }
+    .chat-item{ background:rgba(255,220,230,0.8); padding:6px 10px; border-radius:12px; }
+    .chat-item strong{ color:#ff2e62; }
+    .chat-form{ display:flex; gap:8px; margin-top:8px; }
+    .chat-form input{ flex:1; padding:8px 10px; border-radius:10px; border:1px solid #ff99bb; }
+    .chat-form button{ padding:8px 14px; border:none; border-radius:10px; background:#ff5d8f; color:white; cursor:pointer; }
+
+    @keyframes floatEmoji{0%{transform:translateY(18px);opacity:0}50%{opacity:1}100%{transform:translateY(-26px);opacity:0}}
+    .emoji{ position:absolute; font-size:1.6rem; animation:floatEmoji 1.8s ease forwards; pointer-events:none; z-index:9999; }
+
+    @media(max-width:720px){ h1{font-size:2rem;} .gallery{grid-template-columns:repeat(2,1fr);} .side-message{width:100%; border-radius:0;} }
+  </style>
+</head>
+<body>
+  <video autoplay muted loop class="background-video"><source src="sunset.mp4" type="video/mp4"></video>
+  <div class="overlay"></div>
+  <div class="welcome">🎂 İyi ki doğdun aşkım 💖</div>
+
+  <header>
+    <h1>💖 İyi Ki Doğdun Sevgilim 💖</h1>
+    <div class="counter" id="counter"></div>
+  </header>
+
+  <div class="gallery">
+    <div class="frame" onclick="openMessage(1)"><img src="foto1.jpg"></div>
+    <div class="frame" onclick="openMessage(2)"><img src="foto2.jpg"></div>
+    <div class="frame" onclick="openMessage(3)"><img src="foto3.jpg"></div>
+    <div class="frame" onclick="openMessage(4)"><img src="foto4.jpg"></div>
+  </div>
+
+  <button class="confetti-btn" onclick="showSurprise()">🎉 ♥ TIKLA ♥ 🎉</button>
+
+  <div class="letter"><img src="mektup.jpg" alt="Aşk Mektubu"></div>
+  <div class="love-text">Seni çok seviyorum 💞</div>
+
+  <!-- Genel sohbet -->
+  <section class="bottom-chat">
+    <h3>💬 Sohbet 💬</h3>
+    <div class="chat-list" id="chatList"></div>
+    <form class="chat-form" onsubmit="event.preventDefault(); sendChatMessage();">
+      <input id="chatName" type="text" placeholder="İsmin" required maxlength="30">
+      <input id="chatMsg" type="text" placeholder="Mesaj yaz..." required maxlength="200">
+      <button type="submit">Gönder 💞</button>
+    </form>
+  </section>
+
+  <footer>💌 Sonsuza kadar seninle 💌</footer>
+
+  <div class="popup" id="popup">
+    <h2>💌 İyi ki doğdun kalbimin en güzel yanı 💌</h2>
+    <p>❤️ Seni her geçen gün daha fazla seviyorum yavrum benimm. ❤️</p>
+    <button onclick="closePopup()">Kapat</button>
+  </div>
+
+  <aside class="side-message" id="sideMessage">
+    <h2 id="sideTitle">💌 Mesajlar</h2>
+    <div class="msg-list" id="msgList"></div>
+    <form class="side-form" onsubmit="event.preventDefault(); sendMessage();">
+      <input id="senderName" placeholder="İsim" required>
+      <textarea id="senderText" rows="3" placeholder="Mesaj..." required></textarea>
+      <button type="submit">Gönder 💌</button>
+      <button type="button" onclick="closeMessage()">Kapat 💖</button>
+    </form>
+  </aside>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getDatabase, ref, push, onValue, onChildAdded } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+
+    /* 🔹 Kendi Firebase bilgini buraya yapıştır */
+    const firebaseConfig = {
+  apiKey: "AIzaSyD8wUbNJ-w5CARF6dy28ybUqmS-fkEtZE8",
+  authDomain: "dogumgunumesajlari-434d1.firebaseapp.com",
+  databaseURL: "https://dogumgunumesajlari-434d1-default-rtdb.firebaseio.com",
+  projectId: "dogumgunumesajlari-434d1",
+  storageBucket: "dogumgunumesajlari-434d1.firebasestorage.app",
+  messagingSenderId: "837489224763",
+  appId: "1:837489224763:web:085e7cf4eb0f101d22401e"
+};
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const startDate = new Date("2025-08-31");
+    document.getElementById("counter").innerText = `💖 ${Math.ceil((new Date()-startDate)/(1000*60*60*24))} gündür birlikteyizzz 💖`;
+
+    let currentPhotoKey = null;
+
+    function addMessage(data) {
+  const list = document.getElementById("msgList");
+  const item = document.createElement("div");
+  item.className = "msg-item";
+  const name = document.createElement("div");
+  name.className = "who";
+  name.textContent = data.name;
+  const text = document.createElement("div");
+  text.textContent = data.text;
+  const when = document.createElement("div");
+  when.className = "when";
+  const time = new Date(data.timestamp || Date.now());
+  when.textContent = time.toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" });
+  item.append(name, text, when);
+  list.appendChild(item);
+  list.scrollTop = list.scrollHeight;
+}
+
+
+    function listenMessages(photo) {
+      const list=document.getElementById("msgList");
+      list.innerHTML="";
+      onValue(ref(db,"messages/"+photo),(snap)=>{
+        list.innerHTML="";
+        snap.forEach(ch=>addMessage(ch.val()));
+      });
+    }
+
+    window.openMessage=function(num){
+      currentPhotoKey="foto"+num;
+      document.getElementById("sideTitle").textContent="📸 Anıılaarrrr";
+      document.getElementById("sideMessage").classList.add("active");
+      listenMessages(currentPhotoKey);
+      showEmojis();
+    }
+    window.closeMessage=function(){
+      document.getElementById("sideMessage").classList.remove("active");
+    }
+
+    window.sendMessage=async function(){
+      const name=document.getElementById("senderName").value.trim();
+      const text=document.getElementById("senderText").value.trim();
+      if(!name||!text||!currentPhotoKey)return;
+      await push(ref(db,"messages/"+currentPhotoKey),{name,text,timestamp:Date.now()});
+      document.getElementById("senderText").value="";
+      showEmojis();
+    }
+
+    // Genel sohbet
+    onChildAdded(ref(db,"globalChat"), snap => {
+  const val = snap.val();
+  const div = document.createElement("div");
+  div.className = "chat-item";
+  const time = new Date(val.timestamp || Date.now());
+  const formatted = time.toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" });
+  div.innerHTML = `<strong>${val.name}</strong>: ${val.text}<div class="when">${formatted}</div>`;
+  chatList.appendChild(div);
+  chatList.scrollTop = chatList.scrollHeight;
+});
+
+
+    window.sendChatMessage=async function(){
+      const name=document.getElementById("chatName").value.trim();
+      const text=document.getElementById("chatMsg").value.trim();
+      if(!name||!text)return;
+      await push(ref(db,"globalChat"),{name,text,timestamp:Date.now()});
+      document.getElementById("chatMsg").value="";
+    }
+
+    window.showSurprise=function(){
+      showConfetti();
+      document.getElementById("popup").style.display="block";
+    }
+    window.closePopup=function(){
+      document.getElementById("popup").style.display="none";
+    }
+
+    function showConfetti(){
+      const colors=["#ff4d6d","#ffb3c1","#ffe5ec","#fbb1bd","#ff8fab"];
+      for(let i=0;i<100;i++){
+        const c=document.createElement("div");
+        c.style.position="fixed";
+        c.style.left=Math.random()*100+"%";
+        c.style.top=Math.random()*30+"%";
+        c.style.width="8px";c.style.height="8px";
+        c.style.background=colors[Math.floor(Math.random()*colors.length)];
+        c.style.borderRadius="50%";c.style.zIndex=999;
+        document.body.appendChild(c);
+        c.animate([{transform:"translateY(0)"},{transform:`translateY(${window.innerHeight}px)`}],{duration:2000+Math.random()*1000});
+        setTimeout(()=>c.remove(),3000);
+      }
+    }
+
+    function showEmojis(){
+      const emojis=["💖","🌸","✨","💞","💋"];
+      for(let i=0;i<8;i++){
+        const e=document.createElement("div");
+        e.className="emoji";
+        e.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+        e.style.left=40+Math.random()*40+"%";
+        e.style.top=40+Math.random()*30+"%";
+        e.style.fontSize=14+Math.random()*16+"px";
+        document.body.appendChild(e);
+        setTimeout(()=>e.remove(),1800);
+      }
+    }
+  </script>
+</body>
+</html>
