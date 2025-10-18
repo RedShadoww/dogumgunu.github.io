@@ -11,44 +11,43 @@
     .background-video{ position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2; filter:brightness(60%); }
     .overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:-1; }
 
+    /* Hoş geldin animasyonu */
+    .welcome {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-size: 2.4rem; color: #fff0f5; text-shadow: 0 0 20px #ff99cc;
+      opacity: 0; animation: fadeInOut 5s ease forwards; z-index: 200;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+      25% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      75% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
     header{ padding-top:36px; }
     h1{ text-align:center; font-size:3rem; color:#ffd6e0; text-shadow:0 0 15px #ff99cc; margin-bottom:6px; }
 
-    .gallery{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:24px;
-      max-width:960px;
-      margin:28px auto;
-      justify-items:center;
-      padding:0 16px;
-    }
-    .frame{
-      width:100%; max-width:420px; aspect-ratio:1/1; border:6px solid #ffb6c1;
+    .gallery{ display:grid; grid-template-columns:repeat(2,1fr); gap:24px; max-width:960px; margin:28px auto; justify-items:center; padding:0 16px; }
+    .frame{ width:100%; max-width:420px; aspect-ratio:1/1; border:6px solid #ffb6c1;
       border-radius:20px; overflow:hidden; box-shadow:0 0 30px rgba(255,182,193,0.6);
-      transition:transform .28s ease,box-shadow .28s ease; cursor:pointer; position:relative;
-    }
+      transition:transform .28s ease,box-shadow .28s ease; cursor:pointer; position:relative; }
     .frame:hover{ transform:scale(1.04); box-shadow:0 0 40px rgba(255,105,180,0.95); }
     .frame img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-    /* MEKTUP */
     .letter{ text-align:center; margin:48px 0 16px; }
     .letter img{ max-width:600px; width:90%; border-radius:15px; box-shadow:0 0 30px rgba(255,192,203,0.7); }
 
     .counter{ text-align:center; font-size:1.2rem; color:#ffdde5; text-shadow:0 0 10px #ff8fab; margin-top:-10px; }
 
-    .confetti-btn{
-      display:block; margin:22px auto; padding:12px 22px; font-size:1.1rem; color:white;
+    .confetti-btn{ display:block; margin:22px auto; padding:12px 22px; font-size:1.1rem; color:white;
       background:linear-gradient(45deg,#ff8fab,#ff5d8f); border:none; border-radius:28px; cursor:pointer;
-      box-shadow:0 0 20px rgba(255,182,193,0.5);
-    }
-
+      box-shadow:0 0 20px rgba(255,182,193,0.5); }
     .love-text{ text-align:center; font-size:1.3rem; color:#ffe6eb; animation:pulse 1.8s infinite alternate; margin:18px 0 40px; }
     @keyframes pulse{ from{opacity:0.6; transform:scale(.98)} to{opacity:1; transform:scale(1.02)} }
 
     footer{ text-align:center; padding:22px; color:#ffd6e0; font-size:1rem; }
 
-    /* POPUP doğum günü */
+    /* Popup doğum günü */
     .popup{
       position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
       background:rgba(255,240,245,0.97); color:#ff4d6d; padding:28px 34px; border-radius:18px;
@@ -56,303 +55,216 @@
     }
     .popup button{ margin-top:14px; padding:10px 16px; border-radius:12px; border:none; background:#ff85a2; color:#fff; cursor:pointer; }
 
-    /* YAN MESAJ PANELI */
-    .side-message{
-      position:fixed; right:-100%; top:0; height:100%; width:80%; max-width:420px;
+    /* Yan mesaj paneli */
+    .side-message{ position:fixed; right:-100%; top:0; height:100%; width:80%; max-width:420px;
       background:rgba(255,240,245,0.98); color:#ff3b67; z-index:70; box-shadow:-6px 0 30px rgba(255,182,193,0.6);
-      transition:right .45s ease; border-radius:20px 0 0 20px; display:flex; flex-direction:column; padding:18px;
-    }
+      transition:right .45s ease; border-radius:20px 0 0 20px; display:flex; flex-direction:column; padding:18px; }
     .side-message.active{ right:0; }
-    .side-message .header{ display:flex; gap:8px; align-items:center; justify-content:center; }
-    .side-message h2{ margin-bottom:6px; color:#ff2e62; font-size:1.2rem; }
-    .msg-list{ flex:1; overflow:auto; padding:8px 6px; display:flex; flex-direction:column; gap:10px; margin-top:8px; }
-    .msg-item{ background:rgba(255,220,230,0.7); padding:8px 10px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.06); }
+    .msg-list{ flex:1; overflow:auto; padding:8px; display:flex; flex-direction:column; gap:10px; margin-top:8px; }
+    .msg-item{ background:rgba(255,220,230,0.7); padding:8px 10px; border-radius:12px; }
     .msg-item .who{ font-weight:700; color:#c40055; margin-bottom:4px; }
     .msg-item .when{ font-size:0.75rem; color:#9a2d4a; opacity:0.8; margin-top:6px; text-align:right; }
-
     .side-form{ margin-top:12px; display:flex; flex-direction:column; gap:8px; }
-    .side-form input, .side-form textarea {
-      width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,150,170,0.5); font-size:1rem;
-      resize:vertical; background:rgba(255,255,255,0.95); color:#6b122b;
-    }
-    .side-form .send-row{ display:flex; gap:8px; align-items:center; }
-    .side-form .send-row button{
-      padding:10px 14px; border-radius:12px; border:none; cursor:pointer; background:#ff5d8f; color:white; flex-shrink:0;
-    }
-    .close-btn{ padding:8px 12px; border-radius:12px; border:none; background:#ff85a2; color:#fff; cursor:pointer; }
+    .side-form input, .side-form textarea{ width:100%; padding:10px; border-radius:10px; border:1px solid #ff99bb; background:#fff; color:#6b122b; }
+    .side-form button{ padding:10px 14px; border-radius:12px; border:none; background:#ff5d8f; color:white; cursor:pointer; }
 
-    /* EMOJI */
-    @keyframes floatEmoji { 0%{ transform:translateY(18px); opacity:0 } 50%{ opacity:1 } 100%{ transform:translateY(-26px); opacity:0 } }
+    /* Genel sohbet */
+    .bottom-chat{ background:rgba(255,240,245,0.95); color:#c42558; padding:20px; border-radius:20px 20px 0 0;
+      box-shadow:0 -4px 20px rgba(255,182,193,0.6); max-width:600px; margin:0 auto 20px; }
+    .bottom-chat h3{ text-align:center; margin-bottom:10px; }
+    .chat-list{ max-height:200px; overflow-y:auto; padding:8px; display:flex; flex-direction:column; gap:6px; }
+    .chat-item{ background:rgba(255,220,230,0.8); padding:6px 10px; border-radius:12px; }
+    .chat-item strong{ color:#ff2e62; }
+    .chat-form{ display:flex; gap:8px; margin-top:8px; }
+    .chat-form input{ flex:1; padding:8px 10px; border-radius:10px; border:1px solid #ff99bb; }
+    .chat-form button{ padding:8px 14px; border:none; border-radius:10px; background:#ff5d8f; color:white; cursor:pointer; }
+
+    @keyframes floatEmoji{0%{transform:translateY(18px);opacity:0}50%{opacity:1}100%{transform:translateY(-26px);opacity:0}}
     .emoji{ position:absolute; font-size:1.6rem; animation:floatEmoji 1.8s ease forwards; pointer-events:none; z-index:9999; }
 
-    /* responsive */
-    @media(max-width:720px){
-      h1{ font-size:2rem; }
-      .gallery{ grid-template-columns:repeat(2,1fr); gap:14px; margin:16px auto; }
-      .side-message{ width:100%; max-width:none; border-radius:0; }
-      .letter img{ width:95%; }
-    }
+    @media(max-width:720px){ h1{font-size:2rem;} .gallery{grid-template-columns:repeat(2,1fr);} .side-message{width:100%; border-radius:0;} }
   </style>
 </head>
 <body>
-  <!-- arkaplan video -->
   <video autoplay muted loop class="background-video"><source src="sunset.mp4" type="video/mp4"></video>
   <div class="overlay"></div>
+  <div class="welcome">🎂 İyi ki doğdun aşkım 💖</div>
 
   <header>
     <h1>💖 İyi Ki Doğdun Sevgilim 💖</h1>
     <div class="counter" id="counter"></div>
   </header>
 
-  <!-- galerı -->
-  <main>
-    <div class="gallery">
-      <div class="frame" onclick="openMessage(1)"><img src="foto1.jpg" alt="Foto 1"></div>
-      <div class="frame" onclick="openMessage(2)"><img src="foto2.jpg" alt="Foto 2"></div>
-      <div class="frame" onclick="openMessage(3)"><img src="foto3.jpg" alt="Foto 3"></div>
-      <div class="frame" onclick="openMessage(4)"><img src="foto4.jpg" alt="Foto 4"></div>
-    </div>
+  <div class="gallery">
+    <div class="frame" onclick="openMessage(1)"><img src="foto1.jpg"></div>
+    <div class="frame" onclick="openMessage(2)"><img src="foto2.jpg"></div>
+    <div class="frame" onclick="openMessage(3)"><img src="foto3.jpg"></div>
+    <div class="frame" onclick="openMessage(4)"><img src="foto4.jpg"></div>
+  </div>
 
-    <button class="confetti-btn" onclick="showSurprise()">🎉 ♥ TIKLA ♥ 🎉</button>
+  <button class="confetti-btn" onclick="showSurprise()">🎉 ♥ TIKLA ♥ 🎉</button>
 
-    <div class="letter">
-      <img src="mektup.jpg" alt="Aşk mektubu">
-    </div>
+  <div class="letter"><img src="mektup.jpg" alt="Aşk Mektubu"></div>
+  <div class="love-text">Seni çok seviyorum 💞</div>
 
-    <div class="love-text">Seni çok seviyorum 💞</div>
-  </main>
+  <!-- Genel sohbet -->
+  <section class="bottom-chat">
+    <h3>💬 Sohbet 💬</h3>
+    <div class="chat-list" id="chatList"></div>
+    <form class="chat-form" onsubmit="event.preventDefault(); sendChatMessage();">
+      <input id="chatName" type="text" placeholder="İsmin" required maxlength="30">
+      <input id="chatMsg" type="text" placeholder="Mesaj yaz..." required maxlength="200">
+      <button type="submit">Gönder 💞</button>
+    </form>
+  </section>
 
   <footer>💌 Sonsuza kadar seninle 💌</footer>
 
-  <!-- popup doğum günü -->
   <div class="popup" id="popup">
     <h2>💌 İyi ki doğdun kalbimin en güzel yanı 💌</h2>
-    <p>❤️ Seni her geçen gün daha fazla seviyorum. ❤️</p>
+    <p>❤️ Seni her geçen gün daha fazla seviyorum yavrum benimm. ❤️</p>
     <button onclick="closePopup()">Kapat</button>
   </div>
 
-  <!-- yan mesaj kutusu (fotoğraflar için) -->
   <aside class="side-message" id="sideMessage">
-    <div class="header">
-      <h2 id="sideTitle">💌 Mesajlar</h2>
-    </div>
-
-    <div class="msg-list" id="msgList">
-      <!-- Mesaj öğeleri buraya eklenecek -->
-    </div>
-
-    <form class="side-form" id="msgForm" onsubmit="event.preventDefault(); sendMessage();">
-      <input id="senderName" type="text" placeholder="İsim (örn. Aşkım)" required maxlength="30" />
-      <textarea id="senderText" rows="3" placeholder="Mesajınızı yazın..." required maxlength="500"></textarea>
-      <div class="send-row">
-        <button type="submit">Gönder 💌</button>
-        <button type="button" class="close-btn" onclick="closeMessage()">Kapat 💖</button>
-      </div>
+    <h2 id="sideTitle">💌 Mesajlar</h2>
+    <div class="msg-list" id="msgList"></div>
+    <form class="side-form" onsubmit="event.preventDefault(); sendMessage();">
+      <input id="senderName" placeholder="İsim" required>
+      <textarea id="senderText" rows="3" placeholder="Mesaj..." required></textarea>
+      <button type="submit">Gönder 💌</button>
+      <button type="button" onclick="closeMessage()">Kapat 💖</button>
     </form>
   </aside>
 
-  <!-- emojiler ve konfeti için container (isteğe bağlı) -->
-  <div id="effectsRoot"></div>
-
-  <!-- Firebase (modüler) SDK - tarayıcıda çalışan sürüm -->
   <script type="module">
-    // --- Firebase init (kendi verdiğin config eklendi) ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+    import { getDatabase, ref, push, onValue, onChildAdded } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
+    /* 🔹 Kendi Firebase bilgini buraya yapıştır */
     const firebaseConfig = {
-      apiKey: "AIzaSyD8wUbNJ-w5CARF6dy28ybUqmS-fkEtZE8",
-      authDomain: "dogumgunumesajlari-434d1.firebaseapp.com",
-      databaseURL: "https://dogumgunumesajlari-434d1-default-rtdb.firebaseio.com",
-      projectId: "dogumgunumesajlari-434d1",
-      storageBucket: "dogumgunumesajlari-434d1.firebasestorage.app",
-      messagingSenderId: "837489224763",
-      appId: "1:837489224763:web:085e7cf4eb0f101d22401e"
-    };
-
+  apiKey: "AIzaSyD8wUbNJ-w5CARF6dy28ybUqmS-fkEtZE8",
+  authDomain: "dogumgunumesajlari-434d1.firebaseapp.com",
+  databaseURL: "https://dogumgunumesajlari-434d1-default-rtdb.firebaseio.com",
+  projectId: "dogumgunumesajlari-434d1",
+  storageBucket: "dogumgunumesajlari-434d1.firebasestorage.app",
+  messagingSenderId: "837489224763",
+  appId: "1:837489224763:web:085e7cf4eb0f101d22401e"
+};
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // --- Sayfa: tutulan değişkenler ---
-    let currentPhotoKey = null; // örn "foto1"
-    let activeListenerUnsub = null;
+    const startDate = new Date("2025-08-31");
+    document.getElementById("counter").innerText = `💖 ${Math.ceil((new Date()-startDate)/(1000*60*60*24))} gündür birlikteyizzz 💖`;
 
-    // SAYAC
-    (function initCounter(){
-      const startDate = new Date("2025-07-31");
-      const today = new Date();
-      const diff = Math.abs(today - startDate);
-      const days = Math.ceil(diff / (1000*60*60*24));
-      document.getElementById("counter").innerText = `💖 ${days} gündür birlikteyiz 💖`;
-    })();
+    let currentPhotoKey = null;
 
-    // Yardımcı: zaman formatı
-    function timeString(ts) {
-      try {
-        const d = new Date(ts);
-        return d.toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" });
-      } catch(e) { return ""; }
-    }
+    function addMessage(data) {
+  const list = document.getElementById("msgList");
+  const item = document.createElement("div");
+  item.className = "msg-item";
+  const name = document.createElement("div");
+  name.className = "who";
+  name.textContent = data.name;
+  const text = document.createElement("div");
+  text.textContent = data.text;
+  const when = document.createElement("div");
+  when.className = "when";
+  const time = new Date(data.timestamp || Date.now());
+  when.textContent = time.toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" });
+  item.append(name, text, when);
+  list.appendChild(item);
+  list.scrollTop = list.scrollHeight;
+}
 
-    // Saf gösterim: metni HTML olarak koyma; textContent kullanıyoruz
-    function addMessageToList(key, data) {
-      const list = document.getElementById("msgList");
-      const item = document.createElement("div");
-      item.className = "msg-item";
-      const who = document.createElement("div");
-      who.className = "who";
-      who.textContent = data.name || "Ziyaretçi";
-      const text = document.createElement("div");
-      text.className = "text";
-      text.textContent = data.text || "";
-      const when = document.createElement("div");
-      when.className = "when";
-      when.textContent = data.timestamp ? timeString(data.timestamp) : "";
-      item.appendChild(who);
-      item.appendChild(text);
-      item.appendChild(when);
-      // En son eklenen alt alta gözükmesi için sona ekle
-      list.appendChild(item);
-      // scroll en sona
-      list.scrollTop = list.scrollHeight;
-    }
 
-    // Bir fotoğraf açıldığında: o fotoğrafın mesaj dizinini dinle
-    function listenMessagesFor(photoKey) {
-      // iptal varsa temizle
-      if (typeof activeListenerUnsub === "function") {
-        activeListenerUnsub(); // onValue'un return'u unsubscribe fonksiyonudur
-        activeListenerUnsub = null;
-      }
-      const list = document.getElementById("msgList");
-      list.innerHTML = ""; // önceki mesajları temizle
-
-      const dbRef = ref(db, `messages/${photoKey}`);
-      // onValue ile tüm listeyi dinle (değişikliklerde yeniden gelir)
-      activeListenerUnsub = onValue(dbRef, (snapshot) => {
-        list.innerHTML = ""; // tam yenile
-        snapshot.forEach(child => {
-          const val = child.val();
-          addMessageToList(child.key, val);
-        });
-      }, (err) => {
-        console.error("DB listen error:", err);
+    function listenMessages(photo) {
+      const list=document.getElementById("msgList");
+      list.innerHTML="";
+      onValue(ref(db,"messages/"+photo),(snap)=>{
+        list.innerHTML="";
+        snap.forEach(ch=>addMessage(ch.val()));
       });
     }
 
-    // Gönderme
-    async function sendMessage() {
-      const nameEl = document.getElementById("senderName");
-      const textEl = document.getElementById("senderText");
-      const name = (nameEl.value || "").trim();
-      const text = (textEl.value || "").trim();
-      if (!currentPhotoKey) { alert("Lütfen önce bir fotoğraf seçin."); return; }
-      if (!name || !text) { alert("İsim ve mesaj gerekli."); return; }
+    window.openMessage=function(num){
+      currentPhotoKey="foto"+num;
+      document.getElementById("sideTitle").textContent="📸 Anıılaarrrr";
+      document.getElementById("sideMessage").classList.add("active");
+      listenMessages(currentPhotoKey);
+      showEmojis();
+    }
+    window.closeMessage=function(){
+      document.getElementById("sideMessage").classList.remove("active");
+    }
 
-      const dbRef = ref(db, `messages/${currentPhotoKey}`);
-      // push ile yeni mesaj ekle
-      await push(dbRef, {
-        name: name,
-        text: text,
-        timestamp: Date.now()
-      });
-
-      // temizle
-      textEl.value = "";
-      // emoji/işaret
+    window.sendMessage=async function(){
+      const name=document.getElementById("senderName").value.trim();
+      const text=document.getElementById("senderText").value.trim();
+      if(!name||!text||!currentPhotoKey)return;
+      await push(ref(db,"messages/"+currentPhotoKey),{name,text,timestamp:Date.now()});
+      document.getElementById("senderText").value="";
       showEmojis();
     }
 
-    // Fotoğrafın mesaj panelini aç
-    window.openMessage = function(num) {
-      currentPhotoKey = `foto${num}`;
-      const side = document.getElementById("sideMessage");
-      const title = document.getElementById("sideTitle");
-      title.textContent = `📸 Foto ${num} - Mesajlar`;
-      side.classList.add("active");
+    // Genel sohbet
+    onChildAdded(ref(db,"globalChat"), snap => {
+  const val = snap.val();
+  const div = document.createElement("div");
+  div.className = "chat-item";
+  const time = new Date(val.timestamp || Date.now());
+  const formatted = time.toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" });
+  div.innerHTML = `<strong>${val.name}</strong>: ${val.text}<div class="when">${formatted}</div>`;
+  chatList.appendChild(div);
+  chatList.scrollTop = chatList.scrollHeight;
+});
 
-      // form alanlarını resetleyebiliriz
-      document.getElementById("senderName").value = "";
-      document.getElementById("senderText").value = "";
 
-      // dinlemeyi başlat
-      listenMessagesFor(currentPhotoKey);
-
-      // emojili giriş
-      showEmojis();
-    };
-
-    window.closeMessage = function() {
-      const side = document.getElementById("sideMessage");
-      side.classList.remove("active");
-      // listener'ı iptal et
-      if (typeof activeListenerUnsub === "function") { activeListenerUnsub(); activeListenerUnsub = null; }
-      // küçük temizlik
-      document.getElementById("msgList").innerHTML = "";
-      currentPhotoKey = null;
-    };
-
-    // EMOJI animasyonu: sayfa içinde uçan emojiler
-    function showEmojis() {
-      const root = document.getElementById("effectsRoot");
-      const emojis = ["💖","🌸","✨","💞","💋"];
-      for (let i=0;i<8;i++) {
-        const el = document.createElement("div");
-        el.className = "emoji";
-        el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-        // rastgele konum (yan panel açık/kapalı durumuna göre farklılık)
-        el.style.left = (20 + Math.random()*60) + "%";
-        el.style.top = (35 + Math.random()*40) + "%";
-        el.style.fontSize = (14 + Math.random()*18) + "px";
-        el.style.animationDuration = (1.2 + Math.random()*1.4) + "s";
-        root.appendChild(el);
-        setTimeout(()=>el.remove(), 1800);
-      }
+    window.sendChatMessage=async function(){
+      const name=document.getElementById("chatName").value.trim();
+      const text=document.getElementById("chatMsg").value.trim();
+      if(!name||!text)return;
+      await push(ref(db,"globalChat"),{name,text,timestamp:Date.now()});
+      document.getElementById("chatMsg").value="";
     }
 
-    // Konfeti efekt (basit)
-    function showConfetti() {
-      const colors = ["#ff4d6d","#ffb3c1","#ffe5ec","#fbb1bd","#ff8fab"];
-      for (let i=0;i<120;i++){
-        const conf = document.createElement("div");
-        conf.style.position = "fixed";
-        conf.style.left = Math.random()*100 + "%";
-        conf.style.top = Math.random()*20 + "%";
-        conf.style.width = (6 + Math.random()*10) + "px";
-        conf.style.height = conf.style.width;
-        conf.style.background = colors[Math.floor(Math.random()*colors.length)];
-        conf.style.borderRadius = Math.random()>0.5? "50%":"10%";
-        conf.style.zIndex = 9998;
-        conf.style.opacity = 0.95;
-        document.body.appendChild(conf);
-        const fall = conf.animate([
-          { transform: `translateY(0) rotate(0deg)`, opacity:1 },
-          { transform: `translateY(${window.innerHeight + 200}px) rotate(720deg)`, opacity:0 }
-        ], { duration: 1800 + Math.random()*1200, easing: "cubic-bezier(.2,.8,.2,1)" });
-        setTimeout(()=>{ conf.remove(); }, 3000);
-      }
-    }
-
-    // TIKLA butonu: popup + konfeti
-    window.showSurprise = function() {
+    window.showSurprise=function(){
       showConfetti();
-      const p = document.getElementById("popup");
-      p.style.display = "block";
-    };
-    window.closePopup = function(){
-      const p = document.getElementById("popup");
-      p.style.display = "none";
-    };
+      document.getElementById("popup").style.display="block";
+    }
+    window.closePopup=function(){
+      document.getElementById("popup").style.display="none";
+    }
 
-    // form submit handler (global)
-    window.sendMessage = sendMessage;
+    function showConfetti(){
+      const colors=["#ff4d6d","#ffb3c1","#ffe5ec","#fbb1bd","#ff8fab"];
+      for(let i=0;i<100;i++){
+        const c=document.createElement("div");
+        c.style.position="fixed";
+        c.style.left=Math.random()*100+"%";
+        c.style.top=Math.random()*30+"%";
+        c.style.width="8px";c.style.height="8px";
+        c.style.background=colors[Math.floor(Math.random()*colors.length)];
+        c.style.borderRadius="50%";c.style.zIndex=999;
+        document.body.appendChild(c);
+        c.animate([{transform:"translateY(0)"},{transform:`translateY(${window.innerHeight}px)`}],{duration:2000+Math.random()*1000});
+        setTimeout(()=>c.remove(),3000);
+      }
+    }
 
-    // Küçük uyarı: bağlantı hatası için dinleyici
-    window.addEventListener("error", (e)=>{ /* console.log(e); */ });
-
-    // Not: Eğer realtime DB kuralların test modunda değilse, veritabanı yazma/okuma reddedilebilir.
-    // Geliştirme/test için Firebase Console -> Realtime Database -> Rules bölgesinden
-    // "read": true, "write": true (test amaçlı) şeklinde ayarlayabilirsin. Yayına alırken kısıtla.
+    function showEmojis(){
+      const emojis=["💖","🌸","✨","💞","💋"];
+      for(let i=0;i<8;i++){
+        const e=document.createElement("div");
+        e.className="emoji";
+        e.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+        e.style.left=40+Math.random()*40+"%";
+        e.style.top=40+Math.random()*30+"%";
+        e.style.fontSize=14+Math.random()*16+"px";
+        document.body.appendChild(e);
+        setTimeout(()=>e.remove(),1800);
+      }
+    }
   </script>
 </body>
 </html>
