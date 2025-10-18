@@ -1,336 +1,358 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Seninle Gün Batımı 💞</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>💞 İyi Ki Doğdun Bitanem 💞</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
+    * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif; }
+    html,body { height:100%; color:white; background:#111; overflow-x:hidden; }
+
+    .background-video{ position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-2; filter:brightness(60%); }
+    .overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:-1; }
+
+    header{ padding-top:36px; }
+    h1{ text-align:center; font-size:3rem; color:#ffd6e0; text-shadow:0 0 15px #ff99cc; margin-bottom:6px; }
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:24px;
+      max-width:960px;
+      margin:28px auto;
+      justify-items:center;
+      padding:0 16px;
+    }
+    .frame{
+      width:100%; max-width:420px; aspect-ratio:1/1; border:6px solid #ffb6c1;
+      border-radius:20px; overflow:hidden; box-shadow:0 0 30px rgba(255,182,193,0.6);
+      transition:transform .28s ease,box-shadow .28s ease; cursor:pointer; position:relative;
+    }
+    .frame:hover{ transform:scale(1.04); box-shadow:0 0 40px rgba(255,105,180,0.95); }
+    .frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    /* MEKTUP */
+    .letter{ text-align:center; margin:48px 0 16px; }
+    .letter img{ max-width:600px; width:90%; border-radius:15px; box-shadow:0 0 30px rgba(255,192,203,0.7); }
+
+    .counter{ text-align:center; font-size:1.2rem; color:#ffdde5; text-shadow:0 0 10px #ff8fab; margin-top:-10px; }
+
+    .confetti-btn{
+      display:block; margin:22px auto; padding:12px 22px; font-size:1.1rem; color:white;
+      background:linear-gradient(45deg,#ff8fab,#ff5d8f); border:none; border-radius:28px; cursor:pointer;
+      box-shadow:0 0 20px rgba(255,182,193,0.5);
     }
 
-    body, html {
-      height: 100%;
-      overflow-x: hidden;
-      color: white;
+    .love-text{ text-align:center; font-size:1.3rem; color:#ffe6eb; animation:pulse 1.8s infinite alternate; margin:18px 0 40px; }
+    @keyframes pulse{ from{opacity:0.6; transform:scale(.98)} to{opacity:1; transform:scale(1.02)} }
+
+    footer{ text-align:center; padding:22px; color:#ffd6e0; font-size:1rem; }
+
+    /* POPUP doğum günü */
+    .popup{
+      position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+      background:rgba(255,240,245,0.97); color:#ff4d6d; padding:28px 34px; border-radius:18px;
+      box-shadow:0 0 30px rgba(255,182,193,0.8); z-index:60; display:none; text-align:center;
     }
+    .popup button{ margin-top:14px; padding:10px 16px; border-radius:12px; border:none; background:#ff85a2; color:#fff; cursor:pointer; }
 
-    /* Arka plan videosu */
-    .background-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -2;
-      filter: brightness(60%);
+    /* YAN MESAJ PANELI */
+    .side-message{
+      position:fixed; right:-100%; top:0; height:100%; width:80%; max-width:420px;
+      background:rgba(255,240,245,0.98); color:#ff3b67; z-index:70; box-shadow:-6px 0 30px rgba(255,182,193,0.6);
+      transition:right .45s ease; border-radius:20px 0 0 20px; display:flex; flex-direction:column; padding:18px;
     }
+    .side-message.active{ right:0; }
+    .side-message .header{ display:flex; gap:8px; align-items:center; justify-content:center; }
+    .side-message h2{ margin-bottom:6px; color:#ff2e62; font-size:1.2rem; }
+    .msg-list{ flex:1; overflow:auto; padding:8px 6px; display:flex; flex-direction:column; gap:10px; margin-top:8px; }
+    .msg-item{ background:rgba(255,220,230,0.7); padding:8px 10px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.06); }
+    .msg-item .who{ font-weight:700; color:#c40055; margin-bottom:4px; }
+    .msg-item .when{ font-size:0.75rem; color:#9a2d4a; opacity:0.8; margin-top:6px; text-align:right; }
 
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.3);
-      z-index: -1;
+    .side-form{ margin-top:12px; display:flex; flex-direction:column; gap:8px; }
+    .side-form input, .side-form textarea {
+      width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,150,170,0.5); font-size:1rem;
+      resize:vertical; background:rgba(255,255,255,0.95); color:#6b122b;
     }
-
-    h1 {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 3rem;
-      color: #ffd6e0;
-      text-shadow: 0 0 15px #ff99cc;
+    .side-form .send-row{ display:flex; gap:8px; align-items:center; }
+    .side-form .send-row button{
+      padding:10px 14px; border-radius:12px; border:none; cursor:pointer; background:#ff5d8f; color:white; flex-shrink:0;
     }
+    .close-btn{ padding:8px 12px; border-radius:12px; border:none; background:#ff85a2; color:#fff; cursor:pointer; }
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      max-width: 900px;
-      margin: 60px auto;
-      justify-items: center;
-    }
+    /* EMOJI */
+    @keyframes floatEmoji { 0%{ transform:translateY(18px); opacity:0 } 50%{ opacity:1 } 100%{ transform:translateY(-26px); opacity:0 } }
+    .emoji{ position:absolute; font-size:1.6rem; animation:floatEmoji 1.8s ease forwards; pointer-events:none; z-index:9999; }
 
-    .frame {
-      width: 100%;
-      max-width: 400px;
-      aspect-ratio: 1/1;
-      border: 6px solid #ffb6c1;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 0 30px rgba(255, 182, 193, 0.6);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .frame:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 40px rgba(255, 105, 180, 0.9);
-    }
-
-    .frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Kalp animasyonları */
-    .heart {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      background: pink;
-      transform: rotate(45deg);
-      animation: float 6s linear infinite;
-      opacity: 0.7;
-    }
-
-    .heart::before,
-    .heart::after {
-      content: "";
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: pink;
-      border-radius: 50%;
-    }
-
-    .heart::before { top: -10px; left: 0; }
-    .heart::after { top: 0; left: -10px; }
-
-    @keyframes float {
-      0% { transform: translateY(0) rotate(45deg); opacity: 0.8; }
-      100% { transform: translateY(-800px) rotate(45deg); opacity: 0; }
-    }
-
-    /* Mektup bölümü */
-    .letter {
-      text-align: center;
-      margin: 80px 0 40px 0;
-    }
-
-    .letter img {
-      max-width: 600px;
-      width: 90%;
-      border-radius: 15px;
-      box-shadow: 0 0 30px rgba(255, 192, 203, 0.7);
-    }
-
-    /* Konfeti butonu */
-    .confetti-btn {
-      display: block;
-      margin: 40px auto;
-      padding: 15px 30px;
-      font-size: 1.3rem;
-      color: white;
-      background: linear-gradient(45deg, #ff8fab, #ff5d8f);
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
-      transition: transform 0.3s;
-    }
-
-    .confetti-btn:hover {
-      transform: scale(1.1);
-    }
-
-    /* Hoş geldin yazısı */
-    .welcome {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2.5rem;
-      color: #fff0f5;
-      text-shadow: 0 0 20px #ff99cc;
-      opacity: 0;
-      animation: fadeInOut 5s ease forwards;
-      z-index: 10;
-    }
-
-    @keyframes fadeInOut {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-      25% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-      75% { opacity: 1; }
-      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
-    }
-
-    /* Popup mesaj kutusu */
-    .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 240, 245, 0.95);
-      color: #ff4d6d;
-      padding: 30px 40px;
-      border-radius: 20px;
-      box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
-      text-align: center;
-      display: none;
-      z-index: 20;
-      animation: popIn 0.5s ease forwards;
-    }
-
-    @keyframes popIn {
-      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
-      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    }
-
-    .popup button {
-      margin-top: 15px;
-      background: #ff85a2;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 15px;
-      cursor: pointer;
-    }
-
-    /* Gün sayacı */
-    .counter {
-      text-align: center;
-      font-size: 1.5rem;
-      color: #ffdde5;
-      margin-top: -80px;
-      text-shadow: 0 0 10px #ff8fab;
-    }
-
-    /* "Seni seviyorum" yazısı */
-    .love-text {
-      text-align: center;
-      font-size: 1.6rem;
-      color: #ffe6eb;
-      animation: pulse 1.8s infinite alternate;
-      margin-bottom: 30px;
-    }
-
-    @keyframes pulse {
-      from { opacity: 0.6; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1.05); }
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #ffd6e0;
-      font-size: 1.2rem;
+    /* responsive */
+    @media(max-width:720px){
+      h1{ font-size:2rem; }
+      .gallery{ grid-template-columns:repeat(2,1fr); gap:14px; margin:16px auto; }
+      .side-message{ width:100%; max-width:none; border-radius:0; }
+      .letter img{ width:95%; }
     }
   </style>
 </head>
 <body>
-
-  <!-- Arka plan videosu -->
-  <video autoplay muted loop class="background-video">
-    <source src="sunset.mp4" type="video/mp4">
-  </video>
+  <!-- arkaplan video -->
+  <video autoplay muted loop class="background-video"><source src="sunset.mp4" type="video/mp4"></video>
   <div class="overlay"></div>
 
-  <!-- Müzik -->
-  <audio autoplay loop>
-    <source src="sarki.mp3" type="audio/mp3">
-  </audio>
+  <header>
+    <h1>💖 İyi Ki Doğdun Sevgilim 💖</h1>
+    <div class="counter" id="counter"></div>
+  </header>
 
-  <!-- Hoş geldin yazısı -->
-  <div class="welcome">🎂 İyi ki doğdun aşkım 💖</div>
+  <!-- galerı -->
+  <main>
+    <div class="gallery">
+      <div class="frame" onclick="openMessage(1)"><img src="foto1.jpg" alt="Foto 1"></div>
+      <div class="frame" onclick="openMessage(2)"><img src="foto2.jpg" alt="Foto 2"></div>
+      <div class="frame" onclick="openMessage(3)"><img src="foto3.jpg" alt="Foto 3"></div>
+      <div class="frame" onclick="openMessage(4)"><img src="foto4.jpg" alt="Foto 4"></div>
+    </div>
 
-  <h1>💖 İyi Ki Doğdun Sevgilim 💖</h1>
+    <button class="confetti-btn" onclick="showSurprise()">🎉 ♥ TIKLA ♥ 🎉</button>
 
-  <!-- Gün sayacı -->
-  <div class="counter" id="counter"></div>
+    <div class="letter">
+      <img src="mektup.jpg" alt="Aşk mektubu">
+    </div>
 
-  <!-- Fotoğraf galeri -->
-  <div class="gallery">
-    <div class="frame"><img src="foto1.jpg" alt=""></div>
-    <div class="frame"><img src="foto2.jpg" alt=""></div>
-    <div class="frame"><img src="foto3.jpg" alt=""></div>
-    <div class="frame"><img src="foto4.jpg" alt=""></div>
-  </div>
+    <div class="love-text">Seni çok seviyorum 💞</div>
+  </main>
 
-  <!-- Konfeti butonu -->
-  <button class="confetti-btn" onclick="showSurprise()">🎉 ♥ TIKLA ♥ 🎉</button>
+  <footer>💌 Sonsuza kadar seninle 💌</footer>
 
-  <!-- Popup kutusu -->
+  <!-- popup doğum günü -->
   <div class="popup" id="popup">
     <h2>💌 İyi ki doğdun kalbimin en güzel yanı 💌</h2>
     <p>❤️ Seni her geçen gün daha fazla seviyorum. ❤️</p>
     <button onclick="closePopup()">Kapat</button>
   </div>
 
-  <!-- Mektup -->
-  <div class="letter">
-    <img src="mektup.jpg" alt="Aşk Mektubum">
-  </div>
+  <!-- yan mesaj kutusu (fotoğraflar için) -->
+  <aside class="side-message" id="sideMessage">
+    <div class="header">
+      <h2 id="sideTitle">💌 Mesajlar</h2>
+    </div>
 
-  <!-- “Seni seviyorum” yazısı -->
-  <div class="love-text">Seni çok seviyorum 💞</div>
+    <div class="msg-list" id="msgList">
+      <!-- Mesaj öğeleri buraya eklenecek -->
+    </div>
 
-  <footer>💌 Sonsuza kadar seninle 💌</footer>
+    <form class="side-form" id="msgForm" onsubmit="event.preventDefault(); sendMessage();">
+      <input id="senderName" type="text" placeholder="İsim (örn. Aşkım)" required maxlength="30" />
+      <textarea id="senderText" rows="3" placeholder="Mesajınızı yazın..." required maxlength="500"></textarea>
+      <div class="send-row">
+        <button type="submit">Gönder 💌</button>
+        <button type="button" class="close-btn" onclick="closeMessage()">Kapat 💖</button>
+      </div>
+    </form>
+  </aside>
 
-  <script>
-    // Kalpler
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (4 + Math.random() * 4) + "s";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 7000);
+  <!-- emojiler ve konfeti için container (isteğe bağlı) -->
+  <div id="effectsRoot"></div>
+
+  <!-- Firebase (modüler) SDK - tarayıcıda çalışan sürüm -->
+  <script type="module">
+    // --- Firebase init (kendi verdiğin config eklendi) ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8wUbNJ-w5CARF6dy28ybUqmS-fkEtZE8",
+      authDomain: "dogumgunumesajlari-434d1.firebaseapp.com",
+      databaseURL: "https://dogumgunumesajlari-434d1-default-rtdb.firebaseio.com",
+      projectId: "dogumgunumesajlari-434d1",
+      storageBucket: "dogumgunumesajlari-434d1.firebasestorage.app",
+      messagingSenderId: "837489224763",
+      appId: "1:837489224763:web:085e7cf4eb0f101d22401e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // --- Sayfa: tutulan değişkenler ---
+    let currentPhotoKey = null; // örn "foto1"
+    let activeListenerUnsub = null;
+
+    // SAYAC
+    (function initCounter(){
+      const startDate = new Date("2025-07-31");
+      const today = new Date();
+      const diff = Math.abs(today - startDate);
+      const days = Math.ceil(diff / (1000*60*60*24));
+      document.getElementById("counter").innerText = `💖 ${days} gündür birlikteyiz 💖`;
+    })();
+
+    // Yardımcı: zaman formatı
+    function timeString(ts) {
+      try {
+        const d = new Date(ts);
+        return d.toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" });
+      } catch(e) { return ""; }
     }
-    setInterval(createHeart, 300);
 
-    // Gün sayacı
-    const startDate = new Date("2025-07-31"); // 🔹 Tanışma tarihinizi buraya yaz
-    const today = new Date();
-    const diffTime = Math.abs(today - startDate);
-    const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    document.getElementById("counter").innerText = `💖 ${days} gündür birlikteyizzzz 💖`;
-
-    // Konfeti + Popup
-    function showSurprise() {
-      showConfetti();
-      const popup = document.getElementById("popup");
-      popup.style.display = "block";
+    // Saf gösterim: metni HTML olarak koyma; textContent kullanıyoruz
+    function addMessageToList(key, data) {
+      const list = document.getElementById("msgList");
+      const item = document.createElement("div");
+      item.className = "msg-item";
+      const who = document.createElement("div");
+      who.className = "who";
+      who.textContent = data.name || "Ziyaretçi";
+      const text = document.createElement("div");
+      text.className = "text";
+      text.textContent = data.text || "";
+      const when = document.createElement("div");
+      when.className = "when";
+      when.textContent = data.timestamp ? timeString(data.timestamp) : "";
+      item.appendChild(who);
+      item.appendChild(text);
+      item.appendChild(when);
+      // En son eklenen alt alta gözükmesi için sona ekle
+      list.appendChild(item);
+      // scroll en sona
+      list.scrollTop = list.scrollHeight;
     }
 
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
+    // Bir fotoğraf açıldığında: o fotoğrafın mesaj dizinini dinle
+    function listenMessagesFor(photoKey) {
+      // iptal varsa temizle
+      if (typeof activeListenerUnsub === "function") {
+        activeListenerUnsub(); // onValue'un return'u unsubscribe fonksiyonudur
+        activeListenerUnsub = null;
+      }
+      const list = document.getElementById("msgList");
+      list.innerHTML = ""; // önceki mesajları temizle
+
+      const dbRef = ref(db, `messages/${photoKey}`);
+      // onValue ile tüm listeyi dinle (değişikliklerde yeniden gelir)
+      activeListenerUnsub = onValue(dbRef, (snapshot) => {
+        list.innerHTML = ""; // tam yenile
+        snapshot.forEach(child => {
+          const val = child.val();
+          addMessageToList(child.key, val);
+        });
+      }, (err) => {
+        console.error("DB listen error:", err);
+      });
     }
 
-    function showConfetti() {
-      const colors = ["#ff4d6d", "#ffb3c1", "#ffe5ec", "#fbb1bd", "#ff8fab"];
-      for (let i = 0; i < 150; i++) {
-        const conf = document.createElement("div");
-        conf.style.position = "fixed";
-        conf.style.top = Math.random() * window.innerHeight + "px";
-        conf.style.left = Math.random() * window.innerWidth + "px";
-        conf.style.width = "10px";
-        conf.style.height = "10px";
-        conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        conf.style.opacity = "0.9";
-        conf.style.transform = "rotate(" + Math.random() * 360 + "deg)";
-        conf.style.borderRadius = Math.random() > 0.5 ? "50%" : "0%";
-        conf.style.zIndex = "9999";
-        document.body.appendChild(conf);
-        const fallTime = 2000 + Math.random() * 2000;
-        conf.animate(
-          [
-            { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
-            { transform: `translateY(${window.innerHeight}px) rotate(720deg)`, opacity: 0 }
-          ],
-          { duration: fallTime, easing: "ease-out" }
-        );
-        setTimeout(() => conf.remove(), fallTime);
+    // Gönderme
+    async function sendMessage() {
+      const nameEl = document.getElementById("senderName");
+      const textEl = document.getElementById("senderText");
+      const name = (nameEl.value || "").trim();
+      const text = (textEl.value || "").trim();
+      if (!currentPhotoKey) { alert("Lütfen önce bir fotoğraf seçin."); return; }
+      if (!name || !text) { alert("İsim ve mesaj gerekli."); return; }
+
+      const dbRef = ref(db, `messages/${currentPhotoKey}`);
+      // push ile yeni mesaj ekle
+      await push(dbRef, {
+        name: name,
+        text: text,
+        timestamp: Date.now()
+      });
+
+      // temizle
+      textEl.value = "";
+      // emoji/işaret
+      showEmojis();
+    }
+
+    // Fotoğrafın mesaj panelini aç
+    window.openMessage = function(num) {
+      currentPhotoKey = `foto${num}`;
+      const side = document.getElementById("sideMessage");
+      const title = document.getElementById("sideTitle");
+      title.textContent = `📸 Foto ${num} - Mesajlar`;
+      side.classList.add("active");
+
+      // form alanlarını resetleyebiliriz
+      document.getElementById("senderName").value = "";
+      document.getElementById("senderText").value = "";
+
+      // dinlemeyi başlat
+      listenMessagesFor(currentPhotoKey);
+
+      // emojili giriş
+      showEmojis();
+    };
+
+    window.closeMessage = function() {
+      const side = document.getElementById("sideMessage");
+      side.classList.remove("active");
+      // listener'ı iptal et
+      if (typeof activeListenerUnsub === "function") { activeListenerUnsub(); activeListenerUnsub = null; }
+      // küçük temizlik
+      document.getElementById("msgList").innerHTML = "";
+      currentPhotoKey = null;
+    };
+
+    // EMOJI animasyonu: sayfa içinde uçan emojiler
+    function showEmojis() {
+      const root = document.getElementById("effectsRoot");
+      const emojis = ["💖","🌸","✨","💞","💋"];
+      for (let i=0;i<8;i++) {
+        const el = document.createElement("div");
+        el.className = "emoji";
+        el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        // rastgele konum (yan panel açık/kapalı durumuna göre farklılık)
+        el.style.left = (20 + Math.random()*60) + "%";
+        el.style.top = (35 + Math.random()*40) + "%";
+        el.style.fontSize = (14 + Math.random()*18) + "px";
+        el.style.animationDuration = (1.2 + Math.random()*1.4) + "s";
+        root.appendChild(el);
+        setTimeout(()=>el.remove(), 1800);
       }
     }
-  </script>
 
+    // Konfeti efekt (basit)
+    function showConfetti() {
+      const colors = ["#ff4d6d","#ffb3c1","#ffe5ec","#fbb1bd","#ff8fab"];
+      for (let i=0;i<120;i++){
+        const conf = document.createElement("div");
+        conf.style.position = "fixed";
+        conf.style.left = Math.random()*100 + "%";
+        conf.style.top = Math.random()*20 + "%";
+        conf.style.width = (6 + Math.random()*10) + "px";
+        conf.style.height = conf.style.width;
+        conf.style.background = colors[Math.floor(Math.random()*colors.length)];
+        conf.style.borderRadius = Math.random()>0.5? "50%":"10%";
+        conf.style.zIndex = 9998;
+        conf.style.opacity = 0.95;
+        document.body.appendChild(conf);
+        const fall = conf.animate([
+          { transform: `translateY(0) rotate(0deg)`, opacity:1 },
+          { transform: `translateY(${window.innerHeight + 200}px) rotate(720deg)`, opacity:0 }
+        ], { duration: 1800 + Math.random()*1200, easing: "cubic-bezier(.2,.8,.2,1)" });
+        setTimeout(()=>{ conf.remove(); }, 3000);
+      }
+    }
+
+    // TIKLA butonu: popup + konfeti
+    window.showSurprise = function() {
+      showConfetti();
+      const p = document.getElementById("popup");
+      p.style.display = "block";
+    };
+    window.closePopup = function(){
+      const p = document.getElementById("popup");
+      p.style.display = "none";
+    };
+
+    // form submit handler (global)
+    window.sendMessage = sendMessage;
+
+    // Küçük uyarı: bağlantı hatası için dinleyici
+    window.addEventListener("error", (e)=>{ /* console.log(e); */ });
+
+    // Not: Eğer realtime DB kuralların test modunda değilse, veritabanı yazma/okuma reddedilebilir.
+    // Geliştirme/test için Firebase Console -> Realtime Database -> Rules bölgesinden
+    // "read": true, "write": true (test amaçlı) şeklinde ayarlayabilirsin. Yayına alırken kısıtla.
+  </script>
 </body>
 </html>
-
